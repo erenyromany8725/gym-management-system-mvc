@@ -1,8 +1,8 @@
-using GymManagement.PL.Models;
+using GymManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace GymManagement.PL.Controllers;
+namespace GymManagementSystem.Controllers;
 
 public class HomeController : Controller
 {
@@ -11,10 +11,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+   
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -23,12 +23,11 @@ public class PlanConfiguration : IEntityTypeConfiguration<Plan>
         builder.Property(p => p.Price)
             .HasPrecision(10, 2);
 
-        builder.Property(p => p.CreatedAt)
-            .HasDefaultValueSql("GETDATE()");
+        builder.HasQueryFilter(p => !p.IsDeleted);
 
-        
+
     }
 
-    
+
 }
 
