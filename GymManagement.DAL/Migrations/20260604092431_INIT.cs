@@ -6,8 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GymManagement.DAL.Migrations
 {
     /// <inheritdoc />
-    /// 
-    public partial class init : Migration
+    public partial class INIT : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -240,7 +239,8 @@ namespace GymManagement.DAL.Migrations
                 name: "IX_Bookings_MemberId_SessionId",
                 table: "Bookings",
                 columns: new[] { "MemberId", "SessionId" },
-                unique: true);
+                unique: true,
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_SessionId",
@@ -257,13 +257,15 @@ namespace GymManagement.DAL.Migrations
                 name: "IX_Members_Email",
                 table: "Members",
                 column: "Email",
-                unique: true);
+                unique: true,
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Members_Phone",
                 table: "Members",
                 column: "Phone",
-                unique: true);
+                unique: true,
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Memberships_MemberId",
@@ -289,13 +291,15 @@ namespace GymManagement.DAL.Migrations
                 name: "IX_Traineers_Email",
                 table: "Traineers",
                 column: "Email",
-                unique: true);
+                unique: true,
+                filter: "[IsDeleted] = 0");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Traineers_Phone",
                 table: "Traineers",
                 column: "Phone",
-                unique: true);
+                unique: true,
+                filter: "[IsDeleted] = 0");
         }
 
         /// <inheritdoc />

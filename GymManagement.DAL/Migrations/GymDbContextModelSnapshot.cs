@@ -59,7 +59,8 @@ namespace GymManagement.DAL.Migrations
                     b.HasIndex("SessionId");
 
                     b.HasIndex("MemberId", "SessionId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.ToTable("Bookings", t =>
                         {
@@ -198,10 +199,12 @@ namespace GymManagement.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("Phone")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.ToTable("Members", t =>
                         {
@@ -363,10 +366,12 @@ namespace GymManagement.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.HasIndex("Phone")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[IsDeleted] = 0");
 
                     b.ToTable("Traineers", t =>
                         {

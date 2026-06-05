@@ -1,5 +1,8 @@
+using GymManagement.BLL;
+using GymManagement.DAL;
 using GymManagement.DAL.Repositories.Classes;
 using GymManagement.DAL.Repositories.Interfaces;
+using GymManagement.DAL.Seed;
 using GymManagementSystem.Interceptors;
 using Microsoft.Extensions.Options;
 
@@ -7,24 +10,18 @@ namespace GymManagementSystem;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllersWithViews();
 
-        builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 
-        builder.Services.AddSingleton<AuditInterceptor>();
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+            ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        builder.Services.AddDbContext<GymDbContext>((sp, options) =>
-        {
-            options.UseSqlServer(
-                builder.Configuration.GetConnectionString("DefaultConnection"));
-
-            options.AddInterceptors(
-                sp.GetRequiredService<AuditInterceptor>());
-        });
+        builder.Services.AddGymDataAccess(connectionString);
+        builder.Services.AddGymBusinessLogic();
 
         var app = builder.Build();
 
@@ -32,11 +29,10 @@ public class Program
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Home/Error");
-            
             app.UseHsts();
         }
-
         app.UseHttpsRedirection();
+
         app.UseRouting();
 
         app.UseAuthorization();
@@ -46,6 +42,15 @@ public class Program
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}")
             .WithStaticAssets();
+
+        if (app.Environment.IsDevelopment()) 
+        {
+            await using var scope = app.Services.CreateAsyncScope();
+            var dbcontext = scope.ServiceProvider.GetRequiredService<GymDbContext>();
+            await dbcontext.Database.MigrateAsync();
+            await DatabaseSeeder.SeedAllAsync(dbcontext);
+        }
+        
 
         app.Run();
     }

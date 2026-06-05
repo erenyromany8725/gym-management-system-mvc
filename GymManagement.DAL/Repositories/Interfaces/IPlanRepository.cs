@@ -1,14 +1,8 @@
-﻿using GymManagementSystem.Models;
+﻿using GymManagement.DAL.Repositories.Interfaces;
 
-namespace GymManagement.DAL.Repositories.Interfaces;
+namespace GymManagement.DAL.Repositories.Classes;
 
-public interface IPlanRepository
+public interface IPlanRepository : IRepository<Plan>
 {
-    Task<IEnumerable<Plan>> GetAllAsync(bool tracking = false, CancellationToken ct = default);
-    Task<Plan?> GetByIdAsync(int id, CancellationToken ct = default);
-
-    Task<int> AddAsync(Plan plan, CancellationToken ct = default);
-    Task<int> UpdateAsync(Plan plan, CancellationToken ct = default);
-    Task<int> DeleteAsync(Plan plan, CancellationToken ct = default);
-
+ 
 }

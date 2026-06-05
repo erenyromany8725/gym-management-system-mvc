@@ -22,10 +22,12 @@ public class UserConfiguration<T> : IEntityTypeConfiguration<T> where T : User
             .HasMaxLength(11);
 
         builder.HasIndex(u => u.Email)
-            .IsUnique();
+            .IsUnique()
+            .HasFilter("[IsDeleted] = 0");
 
         builder.HasIndex(u => u.Phone)
-            .IsUnique();
+            .IsUnique()
+            .HasFilter("[IsDeleted] = 0");
 
         builder.ToTable(tb =>
         {
