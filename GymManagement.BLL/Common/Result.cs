@@ -1,4 +1,5 @@
 ﻿namespace GymManagement.BLL.Common;
+
 public class Result
 {
     protected Result(bool isSuccess, string? error, string? errorKey = null)
@@ -42,7 +43,7 @@ public sealed class Result<T> : Result
     public static Result<T> Success(T value)
         => new(true, value, null);
 
-    public static Result<T> Failure(
+    public static new Result<T> Failure(
         string error,
         string? errorKey = null)
         => new(false, default, error, errorKey);

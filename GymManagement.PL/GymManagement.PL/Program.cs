@@ -1,10 +1,5 @@
-using GymManagement.BLL;
-using GymManagement.DAL;
-using GymManagement.DAL.Repositories.Classes;
-using GymManagement.DAL.Repositories.Interfaces;
-using GymManagement.DAL.Seed;
-using GymManagementSystem.Interceptors;
-using Microsoft.Extensions.Options;
+
+
 
 namespace GymManagementSystem;
 
@@ -25,32 +20,34 @@ public class Program
 
         var app = builder.Build();
 
-        
-        if (!app.Environment.IsDevelopment())
+
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
         {
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
         }
+
         app.UseHttpsRedirection();
-
         app.UseRouting();
-
-        app.UseAuthorization();
-
         app.MapStaticAssets();
+
         app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}")
             .WithStaticAssets();
 
-        if (app.Environment.IsDevelopment()) 
+        if (app.Environment.IsDevelopment())
         {
             await using var scope = app.Services.CreateAsyncScope();
             var dbcontext = scope.ServiceProvider.GetRequiredService<GymDbContext>();
             await dbcontext.Database.MigrateAsync();
             await DatabaseSeeder.SeedAllAsync(dbcontext);
         }
-        
+
 
         app.Run();
     }

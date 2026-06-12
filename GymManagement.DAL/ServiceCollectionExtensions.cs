@@ -20,8 +20,10 @@ public static class ServiceCollectionExtensions
         });
 
         services.AddScoped<IPlanRepository, PlanRepository>();
+        services.AddScoped<IBookingRepository, BookingRepository>();
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IMemberRepository, MemberRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }

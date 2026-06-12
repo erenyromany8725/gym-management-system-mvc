@@ -17,7 +17,7 @@ public class PlanController(IRepository<Plan> plans) : Controller
     }
     public async Task<IActionResult> Details(int id, CancellationToken ct)
     {
-        var plan = await repository.GetByIdAsync(id, ct);
+        var plan = await repository.GetByIdAsync(id);
             
 
         if (plan is null)

@@ -1,13 +1,14 @@
-﻿@using GymManagement.BLL.ViewModel.Member
-@using GymManagement.DAL.Models.Enums
+﻿
 @model CreateMemberVM
 
 <div class="container">
     <main role="main" class="pb-3">
+        <partial name="_TempDataAlerts" />
 
         <header class="mb-4">
             <h3 class="text-primary-color">Add Member</h3>
         </header>
+
 
         <form asp-controller="Member" asp-action="Create" method="post">
             @* <div asp-validation-summary="All" class="text-danger mb-3"></div> *@
@@ -95,34 +96,34 @@
             <div class="row g-3">
 
                 <div class="col-12 col-md-6">
-                    <label asp-for="healthRecordVM.Height" class="form-label"></label>
-                    <input asp-for="healthRecordVM.Height" class="form-control" />
-                    <span asp-validation-for="healthRecordVM.Height" class="text-danger"></span>
+                    <label asp-for="HealthRecord.Height" class="form-label"></label>
+                    <input asp-for="HealthRecord.Height" class="form-control" type="number"/>
+                    <span asp-validation-for="HealthRecord.Height" class="text-danger"></span>
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <label asp-for="healthRecordVM.Weight" class="form-label"></label>
-                    <input asp-for="healthRecordVM.Weight" class="form-control" />
-                    <span asp-validation-for="healthRecordVM.Weight" class="text-danger"></span>
+                    <label asp-for=HealthRecord.Weight" class="form-label" ></label>
+                    <input asp-for="HealthRecord.Weight" class="form-control" type="number"/>
+                    <span asp-validation-for="HealthRecord.Weight" class="text-danger"></span>
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <label asp-for="healthRecordVM.BloodType" class="form-label"></label>
-                    <select asp-for="healthRecordVM.BloodType"
+                    <label asp-for="HealthRecord.BloodType" class="form-label"></label>
+                    <select asp-for="HealthRecord.BloodType"
                             class="form-select"
                             asp-items="Html.GetEnumSelectList<BloodType>()">
                         <option value="">-- Select Blood Type --</option>
                     </select>
-                    <span asp-validation-for="healthRecordVM.BloodType" class="text-danger"></span>
+                    <span asp-validation-for="HealthRecord.BloodType" class="text-danger"></span>
                 </div>
 
               
 
 
                 <div class="col-12 col-md-6">
-                    <label asp-for="healthRecordVM.Note" class="form-label"></label>
-                    <input asp-for="healthRecordVM.Note" class="form-control" />
-                    <span asp-validation-for="healthRecordVM.Note" class="text-danger"></span>
+                    <label asp-for="HealthRecord.Notes" class="form-label"></label>
+                    <input asp-for="HealthRecord.Notes" class="form-control" />
+                    <span asp-validation-for="HealthRecord.Notes" class="text-danger"></span>
                 </div>
 
             </div>
@@ -147,5 +148,8 @@
 </div>
 
 @section Scripts{
-    <partial name="_ValidationsScriptsPartial"/>
+    <partial name="_ValidationsScriptsPartial" />
+    <partial name="_AlertDismissScript" />
+
+    
 }
