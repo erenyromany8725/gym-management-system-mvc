@@ -4,5 +4,5 @@ namespace GymManagement.DAL.Repositories.Classes;
 
 public interface IPlanRepository : IRepository<Plan>
 {
- 
+   
 }

@@ -1,5 +1,7 @@
 ﻿using GymManagement.BLL.Common;
 using GymManagement.BLL.Mapping;
+using GymManagement.BLL.Services.Classes;
+using GymManagement.BLL.Services.Interfaces;
 using GymManagement.BLL.Servicess.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddScoped<IMemberService, MemberService>();
+        services.AddScoped<ITrainerService, TrainerService>();
+        services.AddScoped<IPlanService, PlanService>();
         services.AddAutoMapper(conf => { }, typeof(MemberProfile).Assembly);
 
         return services;

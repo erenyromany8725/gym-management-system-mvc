@@ -15,16 +15,18 @@ public class UnitOfWork(GymDbContext context) : IUnitOfWork
     
     private IMemberRepository? _members;
     private IPlanRepository? _plans;
-    private ITraineerRepository? _traineers;
+    private ITrainerRepository? _traineers;
     private IBookingRepository? _bookings;
     private ISessionRepository? _sessions;
+    private IMembershipRepository? _membership;
     private IRepository<Category>? _categories;
     private IRepository<HealthRecord>? _healthRecords;
 
    
     public IMemberRepository Members => _members ?? new MemberRepository(_dbContext);
+    public IMembershipRepository Memberships => _membership ?? new MembershipRepository(_dbContext);
     public IPlanRepository Plans => _plans ?? new PlanRepository(_dbContext);
-    public ITraineerRepository Traineers => _traineers ?? new TraineerRepository(_dbContext);
+    public ITrainerRepository Traineers => _traineers ?? new TrainerRepository(_dbContext);
     public IBookingRepository Bookings => _bookings ?? new BookingRepository(_dbContext);
     public ISessionRepository Sessions => _sessions ?? new SessionRepository(_dbContext);
     public IRepository<Category> Categories => _categories ?? new Repository<Category>(_dbContext);

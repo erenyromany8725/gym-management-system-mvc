@@ -13,6 +13,18 @@ public class MemberService(
     IMapper mapper,
     IDateTimeProvider clock) : IMemberService
 {
+
+    public async Task<Result<IEnumerable<MemberIndexVM>>> GetAllAsync(CancellationToken ct = default)
+    {
+        var members = await unitOfWork.Members.GetAllAsync(ct);
+
+        if (!members.Any())
+            return Result<IEnumerable<MemberIndexVM>>.Failure("No members found.");
+
+
+        return Result<IEnumerable<MemberIndexVM>>.Success(mapper.Map<IEnumerable<MemberIndexVM>>(members));
+    }
+
     public async Task<Result> CreateAsync(CreateMemberVM model, CancellationToken ct = default)
     {
         var email = model.Email.Trim().ToLowerInvariant();
@@ -33,17 +45,6 @@ public class MemberService(
         await unitOfWork.CommitAsync(ct);
 
         return Result.Success();
-    }
-
-    public async Task<Result<IEnumerable<MemberIndexVM>>> GetAllAsync(CancellationToken ct = default)
-    {
-        var members = await unitOfWork.Members.GetAllAsync(ct);
-
-        if (!members.Any())
-            return Result<IEnumerable<MemberIndexVM>>.Failure("No members found.");
-
-
-        return Result<IEnumerable<MemberIndexVM>>.Success(mapper.Map<IEnumerable<MemberIndexVM>>(members));
     }
 
     public async Task<Result<MemberDetailsVM>> GetDetailsAsync(int id, CancellationToken ct = default)
@@ -99,12 +100,7 @@ public class MemberService(
         if (await unitOfWork.Members.IsPhoneTakenAsync(normalizedPhone, id, ct))
             return Result.Failure("This phone number is already registered.", nameof(model.Phone));
 
-        member.Email = normalizedEmail;
-        member.Phone = normalizedPhone;
-        member.Address.BuildingNumber = model.BuildingNumber;
-        member.Address.City = model.City;
-        member.Address.Street = model.Street;
-
+        mapper.Map(model, member);
         await unitOfWork.Members.UpdateAsync(member, ct);
         await unitOfWork.CommitAsync(ct);
 

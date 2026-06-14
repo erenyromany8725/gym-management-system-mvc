@@ -13,8 +13,9 @@ public class MemberRepository(GymDbContext context) : Repository<Member>(context
     public Task<bool> IsEmailTakenAsync(string normalizedEmail, int? execludedId = null, CancellationToken ct = default)
         => _dbContext.Set<Member>().AnyAsync(m => m.Email == normalizedEmail && (!execludedId.HasValue || m.Id != execludedId.Value), ct);
 
-    public Task<bool> IsPhoneTakenAsync(string normalizedPhone, int? execludedId = null, CancellationToken ct = default)
-       =>   _dbContext.Set<Member>().AnyAsync(m=>m.Phone == normalizedPhone && (!execludedId.HasValue || m.Id != execludedId.Value),ct);
+
+    public Task<bool> IsPhoneTakenAsync(string normalizedPhone,int? excludedId = null,CancellationToken ct = default)
+        => _dbContext.Set<Member>().AnyAsync(m =>!m.IsDeleted && m.Phone == normalizedPhone &&(!excludedId.HasValue || m.Id != excludedId.Value),ct);
 
     public async Task<Member?> GetWithMembershipAsync(int id ,
         DateTime now,

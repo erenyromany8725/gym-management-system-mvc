@@ -50,6 +50,19 @@ public class MemberProfile : Profile
                .ForMember(d => d.Street,
             o => o.MapFrom(s => s.Address.Street));
 
+        CreateMap<EditMemberVM,Member>()
+            .ForMember(d=> d.Photo,
+            o=>o.MapFrom(s=>s.PhotoUrl))
+            .ForMember(d => d.UpdatedAt,
+            o => o.MapFrom(s => DateTime.UtcNow))
+            .ForMember(d => d.Address,
+            o => o.MapFrom(s => new Address
+            {
+                BuildingNumber = s.BuildingNumber,
+                City = s.City,
+                Street = s.Street,
+            }));
+
 
         CreateMap<CreateMemberVM, Member>()
             .ForMember(d => d.BirthDate,
